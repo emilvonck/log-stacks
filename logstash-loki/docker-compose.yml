@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   logstash-meraki:
-    image: docker.elastic.co/logstash/logstash-oss:8.4.1
+    build: ${PWD}/logstash-meraki
     container_name: logstash-meraki
     hostname: logstash-meraki
     ports:
