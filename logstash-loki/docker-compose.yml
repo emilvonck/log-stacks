@@ -11,6 +11,16 @@ services:
       - ${PWD}/logstash-fortigate/pipeline:/usr/share/logstash/pipeline:ro
     restart: unless-stopped
 
+  logstash-meraki:
+    image: docker.elastic.co/logstash/logstash-oss:8.4.1
+    container_name: logstash-meraki
+    hostname: logstash-meraki
+    ports:
+      - "9005:9005/udp"
+    volumes:
+      - ${PWD}/logstash-meraki/pipeline:/usr/share/logstash/pipeline:ro
+    restart: unless-stopped
+
   loki:
     image: grafana/loki:main
     container_name: loki
