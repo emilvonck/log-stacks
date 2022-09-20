@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  logstash-fortigate:
+    build: ${PWD}/logstash-fortigate
+    container_name: logstash-fortigate
+    hostname: logstash-fortigate
+    ports:
+      - "9004:9004/udp"
+    volumes:
+      - ${PWD}/logstash-fortigate/pipeline:/usr/share/logstash/pipeline:ro
+    restart: unless-stopped
+
+  loki:
+    image: grafana/loki:main
+    container_name: loki
+    hostname: loki
+    volumes:
+      - ${PWD}/loki/local-config.yml:/etc/loki/local-config.yml:ro
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - "3000:3000"
