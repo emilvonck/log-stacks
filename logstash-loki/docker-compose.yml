@@ -21,6 +21,26 @@ services:
       - ${PWD}/logstash-meraki/pipeline:/usr/share/logstash/pipeline:ro
     restart: unless-stopped
 
+  logstash-ciscoise:
+    build: ${PWD}/logstash-ciscoise
+    container_name: logstash-ciscoise
+    hostname: logstash-ciscoise
+    ports:
+      - "9006:9006/udp"
+    volumes:
+      - ${PWD}/logstash-ciscoise/pipeline:/usr/share/logstash/pipeline:ro
+    restart: unless-stopped
+
+  logstash-windows:
+    build: ${PWD}/logstash-windows
+    container_name: logstash-windows
+    hostname: logstash-windows
+    ports:
+      - "9007:9007"
+    volumes:
+      - ${PWD}/logstash-windows/pipeline:/usr/share/logstash/pipeline:ro
+    restart: unless-stopped
+
   loki:
     image: grafana/loki:main
     container_name: loki
