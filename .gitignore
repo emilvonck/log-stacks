@@ -1,0 +1,4 @@
+syslog-promtail-loki/configs/syslog/syslog-ng.persist
+syslog-promtail-loki/configs/syslog/log/current
+syslog-promtail-loki/configs/syslog/log/lock
+syslog-promtail-loki/configs/syslog/log/state

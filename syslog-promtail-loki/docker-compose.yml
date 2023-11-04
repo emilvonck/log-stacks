@@ -1,0 +1,42 @@
+---
+version: "3"
+services:
+
+  syslog:
+    image: linuxserver/syslog-ng:3.38.1-r0-ls75
+    container_name: syslog
+    environment:
+      - TZ=Europe/Stockholm
+    volumes:
+        - ./configs/syslog/:/config
+        - ./configs/syslog/log:/var/log
+    ports:
+      - 514:5514/udp
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: promtail
+    volumes :
+      - ./configs/promtail:/etc/promtail
+    command: --config.file=/etc/promtail/promtail-config.yml
+    restart: unless-stopped
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: loki
+    volumes:
+      - ./configs/loki:/etc/loki
+    command: --config.file=/etc/loki/loki-config.yml
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: grafana
+    volumes:
+      - ./configs/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+    ports:
+      - 3000:3000
+    restart: unless-stopped
